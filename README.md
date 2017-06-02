@@ -16,3 +16,6 @@ An automated bot which trades crypto-currencies to make profit out of price fluc
 - Add GUI replacing current CUI.
 - Add more pairs.
 - Add more exchanges(first Poloneix then Gatehub).
+
+### Libraries required
+- [JSON-Simple](https://code.google.com/archive/p/json-simple/)
