@@ -16,7 +16,7 @@ import org.json.simple.parser.JSONParser;
 
 public class Api 
 {
-	
+	//config
 	static protected String key = "your public key here";
 	static protected String secret = "your private key here";
 	static String domain = "https://api.kraken.com";
