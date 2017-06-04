@@ -74,7 +74,7 @@ public class Api
 		        Object obj = parser.parse(answer);
 		        JSONObject jsonObject = (JSONObject) obj;
 		        JSONObject temp1 = (JSONObject) jsonObject.get("result");
-		        JSONObject temp2 = (JSONObject) temp1.get("XXRPXXBT");
+		        JSONObject temp2 = (JSONObject) temp1.get("XXRPZUSD");
 		        JSONArray temp3 = (JSONArray) temp2.get("c");
 		        price=Double.parseDouble((String) temp3.get(0));
 		        //System.out.println(price);
@@ -94,6 +94,7 @@ public class Api
 	
 	static String BuyCoin(String pair,double price) throws InterruptedException
 	{   
+		/*
 		String p=String.format ("%.8f", price);
 		System.out.printf("Adding buy order @ %s \n",p);
 		nonce = String.valueOf(System.currentTimeMillis());
@@ -153,11 +154,15 @@ public class Api
 	        c.disconnect();
 	    }
 	    return transaction_id;
+	    */
+		System.out.println("bought "+pair+" at " +price+" ");
+		return "bought "+pair+" at " +price+" ";
 	}	
 
 	
 	static String SellCoin(String pair,double price) throws InterruptedException
-	{   
+	{
+	/*
 		String p=String.format ("%.8f", price);
 		System.out.printf("Adding sell order @ %s \n",p);
 		nonce = String.valueOf(System.currentTimeMillis());
@@ -217,6 +222,9 @@ public class Api
 	        c.disconnect();
 	    }
 	    return transaction_id;
+	*/
+		System.out.println("sold "+pair+" at " +price+" ");
+		return "sold "+pair+" at " +price+" ";
 	}
 
 	
