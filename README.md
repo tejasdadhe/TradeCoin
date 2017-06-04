@@ -19,3 +19,4 @@ An automated bot which trades crypto-currencies to make profit out of price fluc
 
 ### Libraries required
 - [JSON-Simple](https://code.google.com/archive/p/json-simple/)
+- [JFreeChart](http://www.jfree.org/)
