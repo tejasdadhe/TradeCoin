@@ -28,12 +28,14 @@ public class Bot
 		min=Api.CurrentPrice(pair);
 		Api.SellCoin(pair,min);
 		sellingPrice=min;
+		ChartPlotter.sp.setText("Selling Price : "+ sellingPrice +"\t");
 		double cp=min;
 		while(true)
 		{
 			if(cp<=min)
 			{
 				min=cp;
+				ChartPlotter.anc.setText("Anchored at : "+ min +"\t");
 			}
 			else
 			{
@@ -45,6 +47,7 @@ public class Bot
 			}
 			TimeUnit.SECONDS.sleep(5);
 			cp=Api.CurrentPrice(pair);
+			ChartPlotter.cp.setText("Current Price : "+ cp +"\t");
 		}
 		
 	}
@@ -54,12 +57,14 @@ public class Bot
 		max=Api.CurrentPrice(pair);
 		Api.BuyCoin(pair,max);
 		buyingPrice=max;
+		ChartPlotter.bp.setText("Buying Price : "+ buyingPrice +"\t");
 		double cp=max;
 		while(true)
 		{
 			if(cp>=max)
 			{
 				max=cp;
+				ChartPlotter.anc.setText("Anchored at : "+ max +"\t");
 			}
 			else
 			{
@@ -71,6 +76,7 @@ public class Bot
 			}
 			TimeUnit.SECONDS.sleep(5);
 			cp=Api.CurrentPrice(pair);
+			ChartPlotter.cp.setText("Current Price : "+ cp +"\t");
 		}
 	}
 	
@@ -97,6 +103,8 @@ public class Bot
 		buyingLimit=0.2*max_loss;
 		sellingLimit=0.2*max_loss;
 		lim=0.5*max_loss;
+		sellingPrice=achg;
+		ChartPlotter.cp.setText("Current Price : "+ achg);
 		
 		while(true)
 		{	

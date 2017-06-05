@@ -2,8 +2,14 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -21,28 +27,52 @@ public class ChartPlotter extends ApplicationFrame
     private static final int COUNT=2 * 60;
 	private static final long serialVersionUID = 1L;
 	private static final String TITLE = null;
-    private static int time = 5000;
+    private static int time = 10000;
     private Timer timer;
+    
+    static JLabel cp=new JLabel("Current Price :");
+    static JLabel bp=new JLabel("Buying Price :");
+    static JLabel sp=new JLabel("Selling Price : Not sold Yet");
+    static JLabel anc=new JLabel("Anchored at : ");
+    Border border = cp.getBorder();
+    Border margin = new EmptyBorder(10,10,10,50);
+    
+    
 
     public ChartPlotter(final String title,float range ) {
         super(title);
         final DynamicTimeSeriesCollection dataset =
-            new DynamicTimeSeriesCollection(2, COUNT, new Second());
+            new DynamicTimeSeriesCollection(4, COUNT, new Second());
         dataset.setTimeBase(new Second(0, 0, 0, 1, 1, 2017));
         dataset.addSeries(primaryData(), 0, "Current Price");
         dataset.addSeries(primaryData(), 1, "Anchor");
+        dataset.addSeries(primaryData(), 2, "Buying Price");
+        dataset.addSeries(primaryData(), 3, "Selling Price");
         JFreeChart chart = createChart(dataset,range);
 
 
         
 
         this.add(new ChartPanel(chart), BorderLayout.CENTER);
-        JPanel btnPanel = new JPanel(new FlowLayout());
-        this.add(btnPanel, BorderLayout.SOUTH);
+        JPanel pricePanel = new JPanel(new FlowLayout());
+        pricePanel.add(cp);
+        pricePanel.add(bp);
+        pricePanel.add(sp);
+        pricePanel.add(anc);
+        
+        cp.setBorder(new CompoundBorder(border, margin));
+        bp.setBorder(new CompoundBorder(border, margin));
+        sp.setBorder(new CompoundBorder(border, margin));
+        anc.setBorder(new CompoundBorder(border, margin));
+        
+        
+        
+        this.add(pricePanel, BorderLayout.SOUTH);
+        
 
         timer = new Timer(time, new ActionListener() {
 
-            float[] newData = new float[2];
+            float[] newData = new float[4];
             
 
             @Override
@@ -50,6 +80,8 @@ public class ChartPlotter extends ApplicationFrame
                 try {
 					newData[0] = (float) Api.CurrentPrice("xrpusd");
 					newData[1] = (float) Bot.max;
+					newData[2] = (float) Bot.buyingPrice;
+					newData[3] = (float) Bot.sellingPrice;
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
