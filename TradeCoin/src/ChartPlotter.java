@@ -34,6 +34,7 @@ public class ChartPlotter extends ApplicationFrame
     static JLabel bp=new JLabel("Buying Price :");
     static JLabel sp=new JLabel("Selling Price : Not sold Yet");
     static JLabel anc=new JLabel("Anchored at : ");
+    static JLabel profit=new JLabel("Max Profit : ");
     Border border = cp.getBorder();
     Border margin = new EmptyBorder(10,10,10,50);
     
@@ -59,11 +60,13 @@ public class ChartPlotter extends ApplicationFrame
         pricePanel.add(bp);
         pricePanel.add(sp);
         pricePanel.add(anc);
+        pricePanel.add(profit);
         
         cp.setBorder(new CompoundBorder(border, margin));
         bp.setBorder(new CompoundBorder(border, margin));
         sp.setBorder(new CompoundBorder(border, margin));
         anc.setBorder(new CompoundBorder(border, margin));
+        profit.setBorder(new CompoundBorder(border, margin));
         
         
         
@@ -79,7 +82,7 @@ public class ChartPlotter extends ApplicationFrame
             public void actionPerformed(ActionEvent e) {
                 try {
 					newData[0] = (float) Api.CurrentPrice("xrpusd");
-					newData[1] = (float) Bot.max;
+					newData[1] = (float) Bot.anchor;
 					newData[2] = (float) Bot.buyingPrice;
 					newData[3] = (float) Bot.sellingPrice;
 				} catch (InterruptedException e1) {

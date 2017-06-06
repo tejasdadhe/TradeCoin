@@ -7,13 +7,15 @@ public class Bot
 {
 	
 	protected static final String TITLE = "TEJAS";
-	static double max,min,lim,buyingPrice,sellingPrice,buyingLimit,sellingLimit;
+	static double anchor,lim,buyingPrice,sellingPrice,buyingLimit,sellingLimit,profit;
 	static float max_loss;
 	static String pair="xrpusd";
 	
 	static String domain = "https://api.kraken.com";
 	static String path,data;
 	static float achg=0;
+	static float volume=653;
+	
 
 	
 		
@@ -25,22 +27,22 @@ public class Bot
 	
 	static void SellAndTrade() throws InterruptedException
 	{
-		min=Api.CurrentPrice(pair);
-		Api.SellCoin(pair,min);
-		sellingPrice=min;
+		anchor=Api.CurrentPrice(pair);
+		Api.SellCoin(pair,anchor);
+		sellingPrice=anchor;
 		ChartPlotter.sp.setText("Selling Price : "+ sellingPrice +"\t");
-		double cp=min;
+		double cp=anchor;
 		while(true)
 		{
-			if(cp<=min)
+			if(cp<=anchor)
 			{
-				min=cp;
-				ChartPlotter.anc.setText("Anchored at : "+ min +"\t");
+				anchor=cp;
+				ChartPlotter.anc.setText("Anchored at : "+ anchor +"\t");
 			}
 			else
 			{
-				System.out.println("Curent Price: " + cp + " | diff(current_price,anchor): "+PercentageDifference(cp,max)+ "% | diff(current_price,buying_price): " + PercentageDifference(cp,buyingPrice)+ "% | limit: " + lim + " | Anchor: " + min);
-				if(PercentageDifference(cp,min)>=sellingLimit && PercentageDifference(cp,sellingPrice)>=lim)
+				System.out.println("Curent Price: " + cp + " | diff(current_price,anchor): "+PercentageDifference(cp,anchor)+ "% | diff(current_price,buying_price): " + PercentageDifference(cp,buyingPrice)+ "% | limit: " + lim + " | Anchor: " + anchor);
+				if(PercentageDifference(cp,anchor)>=sellingLimit && PercentageDifference(cp,sellingPrice)>=lim)
 				{
 				return;	
 				}		
@@ -54,28 +56,31 @@ public class Bot
 	
 	static void BuyAndTrade() throws InterruptedException
 	{	
-		max=Api.CurrentPrice(pair);
-		Api.BuyCoin(pair,max);
-		buyingPrice=max;
+		anchor=Api.CurrentPrice(pair);
+		Api.BuyCoin(pair,anchor);
+		buyingPrice=anchor;
 		ChartPlotter.bp.setText("Buying Price : "+ buyingPrice +"\t");
-		double cp=max;
+		double cp=anchor;
 		while(true)
 		{
-			if(cp>=max)
+			if(cp>=anchor)
 			{
-				max=cp;
-				ChartPlotter.anc.setText("Anchored at : "+ max +"\t");
+				anchor=cp;
+				ChartPlotter.anc.setText("Anchored at : "+ anchor +"\t");
 			}
 			else
 			{
-				System.out.println("Curent Price: " + cp + " | diff(current_price,anchor): "+PercentageDifference(cp,max)+ "% | diff(current_price,buying_price): " + PercentageDifference(cp,buyingPrice)+ "% | limit: " + lim + " | Anchor: " + max);
-				if(PercentageDifference(cp,max)>=buyingLimit && PercentageDifference(cp,buyingPrice)>=lim)
+				
+				System.out.println("Curent Price: " + cp + " | diff(current_price,anchor): "+PercentageDifference(cp,anchor)+ "% | diff(current_price,buying_price): " + PercentageDifference(cp,buyingPrice)+ "% | limit: " + lim + " | Anchor: " + anchor);
+				if(PercentageDifference(cp,anchor)>=buyingLimit && PercentageDifference(cp,buyingPrice)>=1)
 				{
 				return;	
 				}		
 			}
 			TimeUnit.SECONDS.sleep(5);
 			cp=Api.CurrentPrice(pair);
+			profit=(cp-buyingPrice);
+			ChartPlotter.profit.setText("Max Profit : "+ String.format("%.2f",profit*volume) +" ("+ String.format("%.2f",(profit/buyingPrice)*100)+"%)\t");
 			ChartPlotter.cp.setText("Current Price : "+ cp +"\t");
 		}
 	}
@@ -105,12 +110,14 @@ public class Bot
 		lim=0.5*max_loss;
 		sellingPrice=achg;
 		ChartPlotter.cp.setText("Current Price : "+ achg);
+		profit=0;
 		
 		while(true)
 		{	
 			System.out.println("this executed 1");
 			BuyAndTrade();
 			System.out.println("this executed 2");
+			profit=0;
 			SellAndTrade();
 			System.out.println("this executed 3");
 		}
