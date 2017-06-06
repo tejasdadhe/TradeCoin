@@ -3,6 +3,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -35,6 +36,10 @@ public class ChartPlotter extends ApplicationFrame
     static JLabel sp=new JLabel("Selling Price : Not sold Yet");
     static JLabel anc=new JLabel("Anchored at : ");
     static JLabel profit=new JLabel("Max Profit : ");
+    static String strategy[]={"Manual","Auto : Anchor","Auto : Scripted trade"};
+    static JComboBox st=new JComboBox(strategy);
+    static JLabel st_label=new JLabel("Strategy");
+    
     Border border = cp.getBorder();
     Border margin = new EmptyBorder(10,10,10,50);
     
@@ -50,17 +55,28 @@ public class ChartPlotter extends ApplicationFrame
         dataset.addSeries(primaryData(), 2, "Buying Price");
         dataset.addSeries(primaryData(), 3, "Selling Price");
         JFreeChart chart = createChart(dataset,range);
-
+        
 
         
 
-        this.add(new ChartPanel(chart), BorderLayout.CENTER);
+        
         JPanel pricePanel = new JPanel(new FlowLayout());
+        JPanel controlPanel = new JPanel(new FlowLayout());
+        ChartPanel graph=new ChartPanel(chart);
+        
+        pricePanel.setBounds(0, 0, MAXIMIZED_HORIZ, MAXIMIZED_VERT);
+        controlPanel.setBounds(500, 0, 300, MAXIMIZED_VERT);
+        
+        
         pricePanel.add(cp);
         pricePanel.add(bp);
         pricePanel.add(sp);
-        pricePanel.add(anc);
-        pricePanel.add(profit);
+        
+        controlPanel.add(st_label);
+        controlPanel.add(st);
+        //controlPanel.add(anc);
+        //controlPanel.add(profit);
+        
         
         cp.setBorder(new CompoundBorder(border, margin));
         bp.setBorder(new CompoundBorder(border, margin));
@@ -69,8 +85,17 @@ public class ChartPlotter extends ApplicationFrame
         profit.setBorder(new CompoundBorder(border, margin));
         
         
+        controlPanel.setSize(500, 1000);
+        st.setBounds(0,100,50,300);
+        anc.setBounds(0,100,50,300);
+        profit.setBounds(0,100,50,300);
+        st_label.setBounds(0,0,50,600);
         
+        
+        
+        this.add(graph, BorderLayout.CENTER);
         this.add(pricePanel, BorderLayout.SOUTH);
+        this.add(controlPanel, BorderLayout.EAST);
         
 
         timer = new Timer(time, new ActionListener() {
@@ -107,9 +132,9 @@ public class ChartPlotter extends ApplicationFrame
         return a;
     }
 
-    private JFreeChart createChart(final XYDataset dataset,float r) {
-        final JFreeChart result = ChartFactory.createTimeSeriesChart(
-            TITLE, "time", "price", dataset, true, true, false);
+    private JFreeChart createChart(final XYDataset dataset,float r) 
+    {
+        final JFreeChart result = ChartFactory.createTimeSeriesChart(TITLE, "time", "price", dataset, true, true, false);
         final XYPlot plot = result.getXYPlot();
         ValueAxis domain = plot.getDomainAxis();
         domain.setAutoRange(true);

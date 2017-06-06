@@ -6,7 +6,7 @@ import org.jfree.ui.RefineryUtilities;
 public class Bot 
 {
 	
-	protected static final String TITLE = "TEJAS";
+	protected static final String TITLE = "TradeCoin";
 	static double anchor,lim,buyingPrice,sellingPrice,buyingLimit,sellingLimit,profit;
 	static float max_loss;
 	static String pair="xrpusd";
