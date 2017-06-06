@@ -49,7 +49,10 @@ public class Bot
 			}
 			TimeUnit.SECONDS.sleep(5);
 			cp=Api.CurrentPrice(pair);
+			profit=(cp-sellingPrice);
+			ChartPlotter.profit.setText("Max Profit : "+ String.format("%.2f",profit*volume) +" ("+ String.format("%.2f",(profit/sellingPrice)*100)+"%)\t");
 			ChartPlotter.cp.setText("Current Price : "+ cp +"\t");
+			ChartPlotter.tradePrice.setText(String.format("%.8f", cp));
 		}
 		
 	}
@@ -82,6 +85,7 @@ public class Bot
 			profit=(cp-buyingPrice);
 			ChartPlotter.profit.setText("Max Profit : "+ String.format("%.2f",profit*volume) +" ("+ String.format("%.2f",(profit/buyingPrice)*100)+"%)\t");
 			ChartPlotter.cp.setText("Current Price : "+ cp +"\t");
+			ChartPlotter.tradePrice.setText(String.format("%.8f", cp));
 		}
 	}
 	

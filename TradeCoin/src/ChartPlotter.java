@@ -6,6 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -41,6 +42,8 @@ public class ChartPlotter extends ApplicationFrame
     static JLabel profit=new JLabel("Max Profit : ");
     static JButton sellButton=new JButton(" Sell ");
     static JButton buyButton=new JButton(" Buy ");
+    static JTextField tradePrice = new JTextField(" ");
+    static JTextField volume = new JTextField(String.format("%.4f",Bot.volume));
     static String strategy[]={"Manual","Auto : Anchor","Auto : Scripted trade"};
     static JComboBox<String> st=new JComboBox<String>(strategy);
     static JLabel st_label=new JLabel("Strategy");
@@ -87,6 +90,8 @@ public class ChartPlotter extends ApplicationFrame
         controlPanel.add(profit);
         controlPanel.add(sellButton);
         controlPanel.add(buyButton);
+        controlPanel.add(tradePrice);
+        controlPanel.add(volume);
         
         
         cp.setBorder(new CompoundBorder(border, margin));
@@ -116,12 +121,15 @@ public class ChartPlotter extends ApplicationFrame
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
+                try 
+                {
 					newData[0] = (float) Api.CurrentPrice("xrpusd");
 					newData[1] = (float) Bot.anchor;
 					newData[2] = (float) Bot.buyingPrice;
 					newData[3] = (float) Bot.sellingPrice;
-				} catch (InterruptedException e1) {
+				} 
+                catch (InterruptedException e1) 
+                {
 					e1.printStackTrace();
 				}
                 dataset.advanceTime();
