@@ -1,5 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -43,7 +42,7 @@ public class ChartPlotter extends ApplicationFrame
     static JButton sellButton=new JButton(" Sell ");
     static JButton buyButton=new JButton(" Buy ");
     static String strategy[]={"Manual","Auto : Anchor","Auto : Scripted trade"};
-    static JComboBox st=new JComboBox(strategy);
+    static JComboBox<String> st=new JComboBox<String>(strategy);
     static JLabel st_label=new JLabel("Strategy");
     
     Border border = cp.getBorder();
