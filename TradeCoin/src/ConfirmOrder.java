@@ -13,7 +13,7 @@ public class ConfirmOrder implements ActionListener {
 		if (e.getActionCommand().equals(" Sell ")) 
 		{
 			System.out.println("Sell button has been clicked");
-			int a=JOptionPane.showConfirmDialog(f,"Are you sure you want to sell" + Bot.pair+" at rate" +Bot.anchor,"Confirm Order", JOptionPane.YES_NO_OPTION);
+			int a=JOptionPane.showConfirmDialog(f,"<html><font valign=center>Do you want to sell <font size=10>"+Bot.volume+"</font> volume of <font size=10>" + Bot.pair+"</font> at rate of <font size=10>" +Bot.achg +"</font> ?</font></html>","Confirm Order", JOptionPane.YES_NO_OPTION);
 			if(a==JOptionPane.YES_OPTION)
 			{  
 			    try

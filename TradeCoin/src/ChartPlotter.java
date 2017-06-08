@@ -1,19 +1,27 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -58,12 +66,14 @@ public class ChartPlotter extends ApplicationFrame
     static JLabel hr=new JLabel("<html><hr></html>");
     static JLabel priceLabel=new JLabel("<html><h2>Price : </hr></html>");
     static JLabel volumeLabel=new JLabel("<html><h2>Volume : </hr></html>");
+    static JLabel totalLabel=new JLabel("<html><h2>Total : </hr></html>");
     
     
     static JButton sellButton=new JButton(" Sell ");
     static JButton buyButton=new JButton(" Buy ");
     static JTextField tradePrice = new JTextField(" ");
     static JTextField volume = new JTextField(String.format("%.4f",Bot.volume));
+    static JTextField total = new JTextField(String.format("%.4f",Bot.volume*Bot.achg));
     static String strategy[]={"Manual","Auto : Anchor","Auto : Scripted trade"};
     static String exchange[]={"Kraken","Poloneix","GateHub"};
     static String pairNames[]={"XRPXBT","XRPUSD","XBTUSD"};
@@ -102,6 +112,14 @@ public class ChartPlotter extends ApplicationFrame
         graph.setBorder(new CompoundBorder(new EmptyBorder(10,0,10,10), new EmptyBorder(10,0,10,10)));
         graph.setBackground(Color.WHITE);
         
+        
+        
+        Font font1 = new Font("SansSerif", Font.BOLD, 20);
+        cp.setFont(font1);
+        bp.setFont(font1);
+        sp.setFont(font1);
+        
+        
 		pricePanel.setBounds(5,620,1355,80);
 		pricePanel.add(cp);
 		pricePanel.add(bp);
@@ -109,8 +127,11 @@ public class ChartPlotter extends ApplicationFrame
 		pricePanel.setBackground(Color.WHITE);
 		
 		exchg.setBounds(0,0,150,50);
+		exchg.setFont(font1);
 		pair_name.setBounds(155,0,150,50);
+		pair_name.setFont(font1);
 		st.setBounds(310,0,240,50);
+		st.setFont(font1);
 
 		instancePanel.add(exchg);
 		instancePanel.add(pair_name);
@@ -128,13 +149,81 @@ public class ChartPlotter extends ApplicationFrame
 		
 		priceLabel.setBounds(65, 105, 200, 50);
 		volumeLabel.setBounds(65, 175, 200, 50);
+		totalLabel.setBounds(65, 245, 200, 50);
+		
 		tradePrice.setBounds(200, 105, 310, 50);
+		tradePrice.setFont(font1);
 		tradePrice.setHorizontalAlignment(JTextField.CENTER);
 		volume.setBounds(200, 175, 310, 50);
+		volume.setFont(font1);
 		volume.setHorizontalAlignment(JTextField.CENTER);
-		sellButton.setBounds(70, 250, 200, 50);
-		buyButton.setBounds(300, 250, 200, 50);
+		total.setBounds(200, 245, 310, 50);
+		total.setFont(font1);
+		total.setHorizontalAlignment(JTextField.CENTER);
 		
+		tradePrice.getDocument().addDocumentListener(new DocumentListener() {
+			  public void changedUpdate(DocumentEvent e) {
+			    //warn();
+			  }
+			  public void removeUpdate(DocumentEvent e) {
+			    warn();
+			  }
+			  public void insertUpdate(DocumentEvent e) {
+			    warn();
+			  }
+
+			  public void warn() {
+			     if (Integer.parseInt(tradePrice.getText())<=0){
+			    	 total.setText("Invalid Number");
+			       JOptionPane.showMessageDialog(null,
+			          "Error: Please enter number bigger than 0", "Error Massage",
+			          JOptionPane.ERROR_MESSAGE);
+			     }
+			     else
+			     {
+			    	 double a=Double.parseDouble(tradePrice.getText());
+			    	 double b=Double.parseDouble(volume.getText());
+			    	 
+			    	 total.setText(String.format("%.4f",a*b));
+			     }
+			  }
+			  
+			});
+		
+		volume.getDocument().addDocumentListener(new DocumentListener() {
+			  public void changedUpdate(DocumentEvent e) {
+			    warn();
+			  }
+			  public void removeUpdate(DocumentEvent e) {
+			    warn();
+			  }
+			  public void insertUpdate(DocumentEvent e) {
+			    warn();
+			  }
+
+			  public void warn() {
+			     if (Integer.parseInt(tradePrice.getText())<=0){
+			    	 total.setText("Invalid Number");
+			       JOptionPane.showMessageDialog(null,
+			          "Error: Please enter number bigger than 0", "Error Massage",
+			          JOptionPane.ERROR_MESSAGE);
+			     }
+			     else
+			     {
+			    	 double a=Double.parseDouble(tradePrice.getText());
+			    	 double b=Double.parseDouble(volume.getText());
+			    	 
+			    	 total.setText(String.format("%.4f",a*b));
+			     }
+			  }
+			  
+			});
+		
+		sellButton.setBounds(70, 350, 200, 50);
+		buyButton.setBounds(300, 350, 200, 50);
+		
+		sellButton.setIcon(new ImageIcon(getClass().getResource("/Sell.png")));
+	    buyButton.setIcon(new ImageIcon(getClass().getResource("/Buy.png")));
 		
 		
 		
@@ -149,6 +238,9 @@ public class ChartPlotter extends ApplicationFrame
 		manualTradePanel.add(tradePrice);
 		manualTradePanel.add(volumeLabel);
 		manualTradePanel.add(volume);
+		manualTradePanel.add(totalLabel);
+		manualTradePanel.add(total);
+		
 		manualTradePanel.add(sellButton);
 		manualTradePanel.add(buyButton);
 		
