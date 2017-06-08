@@ -1,9 +1,12 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -35,6 +38,13 @@ public class ChartPlotter extends ApplicationFrame
     private Timer timer;
     
     
+    
+    static JFrame frame=new JFrame();
+	static JPanel graphPanel=new JPanel();
+	static JPanel pricePanel=new JPanel();
+	static JPanel instancePanel=new JPanel();
+	static JPanel tradePanel=new JPanel();
+    
     static JLabel cp=new JLabel("Current Price :");
     static JLabel bp=new JLabel("Buying Price :");
     static JLabel sp=new JLabel("Selling Price : Not sold Yet");
@@ -45,13 +55,22 @@ public class ChartPlotter extends ApplicationFrame
     static JTextField tradePrice = new JTextField(" ");
     static JTextField volume = new JTextField(String.format("%.4f",Bot.volume));
     static String strategy[]={"Manual","Auto : Anchor","Auto : Scripted trade"};
+    static String exchange[]={"Kraken","Poloneix","GateHub"};
+    static String pairNames[]={"XRPXBT","XRPUSD","XBTUSD"};
     static JComboBox<String> st=new JComboBox<String>(strategy);
+    static JComboBox<String> exchg=new JComboBox<String>(exchange);
+    static JComboBox<String> pair_name=new JComboBox<String>(pairNames);
     static JLabel st_label=new JLabel("Strategy");
     
     Border border = cp.getBorder();
-    Border margin = new EmptyBorder(10,10,10,50);
+    Border margin = new EmptyBorder(25,50,25,50);
+    Border buttonMargin = new EmptyBorder(20,50,20,50);
     
     
+    public void constructGUI()
+    {
+    	
+    }
 
     public ChartPlotter(final String title,float range ) 
     {
@@ -67,52 +86,54 @@ public class ChartPlotter extends ApplicationFrame
         JFreeChart chart = createChart(dataset,range);       
         ChartPanel graph=new ChartPanel(chart);
         
-        JPanel pricePanel = new JPanel();
-        JPanel controlPanel = new JPanel();
+        
+        graph.setBounds(5, 5, 800, 610);
+        graph.setBorder(new CompoundBorder(new EmptyBorder(10,0,10,10), new EmptyBorder(10,0,10,10)));
+        graph.setBackground(Color.WHITE);
+        
+		pricePanel.setBounds(5,620,1355,80);
+		pricePanel.add(cp);
+		pricePanel.add(bp);
+		pricePanel.add(sp);
+		pricePanel.setBackground(Color.WHITE);
+		
+		exchg.setBounds(0,0,150,50);
+		pair_name.setBounds(155,0,150,50);
+		st.setBounds(310,0,240,50);
+
+		instancePanel.add(exchg);
+		instancePanel.add(pair_name);
+		instancePanel.add(st);
+		instancePanel.setBounds(810,5,550,50);
+		instancePanel.setLayout(null);
+
+		cp.setBorder(new CompoundBorder(border, margin));
+		bp.setBorder(new CompoundBorder(border, margin));
+		sp.setBorder(new CompoundBorder(border, margin));
+		
+		
+		
+		tradePanel.setBounds(810,60,550,555);
+		
+			
+		this.add(graph);
+		this.add(pricePanel);
+		this.add(instancePanel);
+		this.add(tradePanel);
+	    setExtendedState( this.getExtendedState()|JFrame.MAXIMIZED_BOTH );      
+        
+        
+        
+        
+        
+        
        
-        
-        pricePanel.setBounds(0, 0, 500, 500);
-        controlPanel.setBounds(0, 0, 100, MAXIMIZED_VERT);
-        
-        
-        pricePanel.add(cp);
-        pricePanel.add(bp);
-        pricePanel.add(sp);
-        
-        
         
 		sellButton.addActionListener(new ConfirmOrder());
 		buyButton.addActionListener(new ConfirmOrder());
         
-        controlPanel.add(st_label);
-        controlPanel.add(st);
-        controlPanel.add(anc);
-        controlPanel.add(profit);
-        controlPanel.add(sellButton);
-        controlPanel.add(buyButton);
-        controlPanel.add(tradePrice);
-        controlPanel.add(volume);
-        
-        
-        cp.setBorder(new CompoundBorder(border, margin));
-        bp.setBorder(new CompoundBorder(border, margin));
-        sp.setBorder(new CompoundBorder(border, margin));
-        anc.setBorder(new CompoundBorder(border, margin));
-        profit.setBorder(new CompoundBorder(border, margin));
-        
-        
-        controlPanel.setSize(500, 1000);
-        st.setBounds(300,300,500,3000);
-        anc.setBounds(0,100,50,300);
-        profit.setBounds(0,100,50,300);
-        st_label.setBounds(0,0,50,600);
-        
-        
-        
-        this.add(graph, BorderLayout.CENTER);
-        this.add(pricePanel, BorderLayout.SOUTH);
-        this.add(controlPanel, BorderLayout.EAST);
-        
+
+
 
         timer = new Timer(time, new ActionListener() {
 
@@ -120,7 +141,8 @@ public class ChartPlotter extends ApplicationFrame
             
 
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) 
+            {
                 try 
                 {
 					newData[0] = (float) Api.CurrentPrice("xrpusd");
@@ -165,12 +187,5 @@ public class ChartPlotter extends ApplicationFrame
     public void start() {
         timer.start();
     }
-    
-    
-    public void ConfirmSell()
-    {
-    	
-    }
-
 
 }
