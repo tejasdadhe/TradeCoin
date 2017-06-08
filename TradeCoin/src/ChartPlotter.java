@@ -44,12 +44,22 @@ public class ChartPlotter extends ApplicationFrame
 	static JPanel pricePanel=new JPanel();
 	static JPanel instancePanel=new JPanel();
 	static JPanel tradePanel=new JPanel();
+	static JPanel manualTradePanel=new JPanel();
+	static JPanel ScrapPanel=new JPanel();
+	
+	
     
     static JLabel cp=new JLabel("Current Price :");
     static JLabel bp=new JLabel("Buying Price :");
     static JLabel sp=new JLabel("Selling Price : Not sold Yet");
     static JLabel anc=new JLabel("Anchored at : ");
     static JLabel profit=new JLabel("Max Profit : ");
+    static JLabel heading=new JLabel();
+    static JLabel hr=new JLabel("<html><hr></html>");
+    static JLabel priceLabel=new JLabel("<html><h2>Price : </hr></html>");
+    static JLabel volumeLabel=new JLabel("<html><h2>Volume : </hr></html>");
+    
+    
     static JButton sellButton=new JButton(" Sell ");
     static JButton buyButton=new JButton(" Buy ");
     static JTextField tradePrice = new JTextField(" ");
@@ -61,6 +71,7 @@ public class ChartPlotter extends ApplicationFrame
     static JComboBox<String> exchg=new JComboBox<String>(exchange);
     static JComboBox<String> pair_name=new JComboBox<String>(pairNames);
     static JLabel st_label=new JLabel("Strategy");
+    static JButton b=new JButton("hgfjh");
     
     Border border = cp.getBorder();
     Border margin = new EmptyBorder(25,50,25,50);
@@ -111,15 +122,46 @@ public class ChartPlotter extends ApplicationFrame
 		bp.setBorder(new CompoundBorder(border, margin));
 		sp.setBorder(new CompoundBorder(border, margin));
 		
+		heading.setBounds(20, 5, 200, 50);
+		hr.setBounds(20, 55, 510, 5);
+		
+		
+		priceLabel.setBounds(65, 105, 200, 50);
+		volumeLabel.setBounds(65, 175, 200, 50);
+		tradePrice.setBounds(200, 105, 310, 50);
+		tradePrice.setHorizontalAlignment(JTextField.CENTER);
+		volume.setBounds(200, 175, 310, 50);
+		volume.setHorizontalAlignment(JTextField.CENTER);
+		sellButton.setBounds(70, 250, 200, 50);
+		buyButton.setBounds(300, 250, 200, 50);
+		
+		
 		
 		
 		tradePanel.setBounds(810,60,550,555);
+		tradePanel.add(manualTradePanel);
+		tradePanel.setLayout(null);
+		manualTradePanel.setLayout(null);
+		manualTradePanel.setBounds(0,0,550,555);
+		heading.setText("<html><h1>Manual Trading</h1></html>");
+		manualTradePanel.add(heading);
+		manualTradePanel.add(priceLabel);
+		manualTradePanel.add(tradePrice);
+		manualTradePanel.add(volumeLabel);
+		manualTradePanel.add(volume);
+		manualTradePanel.add(sellButton);
+		manualTradePanel.add(buyButton);
+		
+		manualTradePanel.setBackground(Color.WHITE);
+		
+		
 		
 			
 		this.add(graph);
 		this.add(pricePanel);
 		this.add(instancePanel);
 		this.add(tradePanel);
+		this.add(ScrapPanel);
 	    setExtendedState( this.getExtendedState()|JFrame.MAXIMIZED_BOTH );      
         
         
