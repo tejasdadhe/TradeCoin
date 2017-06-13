@@ -15,6 +15,7 @@ public class Bot
 	static String path,data;
 	static float achg=0;
 	static float volume=653;
+	static int strategy;
 	
 	
 	
@@ -94,9 +95,10 @@ public class Bot
 	
 	public static void main(String args[]) throws InterruptedException
 	{
-		
+		strategy=0;
 		achg=(float) Api.CurrentPrice("xrpusd");
-		
+		anchor=achg;
+		buyingPrice=anchor;
 		EventQueue.invokeLater(new Runnable() 
 		{   
             public void run() {
@@ -118,15 +120,46 @@ public class Bot
 		ChartPlotter.cp.setText("Current Price : "+ achg);
 		profit=0;
 		
+		
+		
 		while(true)
 		{	
-			System.out.println("this executed 1");
-			BuyAndTrade();
-			System.out.println("this executed 2");
-			profit=0;
-			SellAndTrade();
-			System.out.println("this executed 3");
+			double oldPrice= Api.CurrentPrice(pair);
+			while(strategy==0)
+			{
+				System.out.println("Executing strategy 0");	//Manual
+				TimeUnit.SECONDS.sleep(4);
+			}
+			while(strategy==1)
+			{	
+				System.out.println("this executed 1");	//Anchor
+				BuyAndTrade();
+				System.out.println("this executed 2");
+				profit=0;
+				SellAndTrade();
+				System.out.println("this executed 3");
+			}
+			while(strategy==2)
+			{
+				System.out.println("Executing strategy 2");	//Scripted
+				TimeUnit.SECONDS.sleep(4);
+			}
+			while(strategy==3)
+			{
+				TimeUnit.SECONDS.sleep(4);
+				double newPrice=Api.CurrentPrice(pair);
+				float pd=PercentageDifference(newPrice,oldPrice);
+				if(pd>0.1)
+				{
+					Api.BuyCoin(pair, newPrice*0.995);
+					Api.SellCoin(pair, newPrice*1.005);
+					ChartPlotter.trailingTradeLog.append("\n");
+					oldPrice=newPrice;
+				}
+				ChartPlotter.trailingTradeLog.append("Current Price : "+newPrice+" | Percentage Difference : " +pd+" \n");
+			}	
 		}
+			
 		
 		
 	}

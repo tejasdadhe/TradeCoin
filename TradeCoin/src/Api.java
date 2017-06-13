@@ -94,7 +94,7 @@ public class Api
 	
 	static String BuyCoin(String pair,double price) throws InterruptedException
 	{   
-		/*
+		
 		String p=String.format ("%.8f", price);
 		System.out.printf("Adding buy order @ %s \n",p);
 		nonce = String.valueOf(System.currentTimeMillis());
@@ -154,15 +154,16 @@ public class Api
 	        c.disconnect();
 	    }
 	    return transaction_id;
-	    */
-		System.out.println("bought "+pair+" at " +price+" ");
-		return "bought "+pair+" at " +price+" ";
+	    
+		//System.out.println("bought "+pair+" at " +price+" ");
+		//ChartPlotter.trailingTradeLog.append("bought "+pair+" at " +price+" ");
+		//return "bought "+pair+" at " +price+" ";
 	}	
 
 	
 	static String SellCoin(String pair,double price) throws InterruptedException
 	{
-	/*
+	
 		String p=String.format ("%.8f", price);
 		System.out.printf("Adding sell order @ %s \n",p);
 		nonce = String.valueOf(System.currentTimeMillis());
@@ -222,9 +223,10 @@ public class Api
 	        c.disconnect();
 	    }
 	    return transaction_id;
-	*/
-		System.out.println("sold "+pair+" at " +price+" ");
-		return "sold "+pair+" at " +price+" ";
+	
+		//System.out.println("sold "+pair+" at " +price+" ");
+		//ChartPlotter.trailingTradeLog.append("sold "+pair+" at " +price+" ");
+		//return "sold "+pair+" at " +price+" ";
 	}
 
 	

@@ -9,6 +9,7 @@ import java.awt.event.ItemListener;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,6 +18,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.border.Border;
@@ -85,6 +88,9 @@ public class ChartPlotter extends ApplicationFrame
     static JTextField from=new JTextField();
     static JTextField upTo=new JTextField();
     static JTextField trailingVolume=new JTextField();
+    
+    static JTextArea trailingTradeLog = new JTextArea();
+    final static JScrollPane scroll = new JScrollPane(trailingTradeLog);
     
     static String strategy[]={"Manual","Auto : Anchor","Auto : Scripted trade","Auto : Trailing Trade"};
     static String exchange[]={"Kraken","Poloneix","GateHub"};
@@ -191,6 +197,16 @@ public class ChartPlotter extends ApplicationFrame
 		startAutoTrailTrade.setBounds(90, 350, 400, 50);
 		stopAutoTrailTrade.setBounds(90, 450, 400, 50);
 		
+		Border border = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
+	    
+		//trailingTradeLog.setBackground(Color.BLUE);
+		scroll.setBounds(50, 70, 450, 350);
+		trailingTradeLog.setBounds(0, 0, 450, 350);
+		trailingTradeLog.setBorder(BorderFactory.createCompoundBorder(border,
+	            BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+		
+		
+		
 		sellButton.setIcon(new ImageIcon(getClass().getResource("/Sell.png")));
 	    buyButton.setIcon(new ImageIcon(getClass().getResource("/Buy.png")));
 	    startAutoTrailTrade.setIcon(new ImageIcon(getClass().getResource("/StartAutoTrading.png")));
@@ -201,7 +217,6 @@ public class ChartPlotter extends ApplicationFrame
 		tradePanel.add(manualTradePanel);
 		tradePanel.setLayout(null);
 		
-
 		heading.setText("<html><h1>Manual Trading</h1></html>");
 		
 		manualTradePanel.setLayout(null);

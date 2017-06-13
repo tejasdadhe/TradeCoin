@@ -24,6 +24,7 @@ public class AutoTrailTrade implements ActionListener
 			trailingTradePanelInstance.setLayout(null);
 			trailingTradePanelInstance.setBounds(0,0,550,555);
 			trailingTradePanelInstance.setBackground(Color.WHITE);
+			trailingTradePanelInstance.add(ChartPlotter.scroll);
 			trailingTradePanelInstance.add(ChartPlotter.stopAutoTrailTrade);
 			
 			System.out.println("Start button has been clicked");
@@ -36,20 +37,16 @@ public class AutoTrailTrade implements ActionListener
 				ChartPlotter.st.disable();
 				ChartPlotter.instancePanel.revalidate();
 				ChartPlotter.instancePanel.repaint();
-				
+				Bot.strategy=3;
 				System.out.println("Auto Trail trading started");
+				ChartPlotter.trailingTradeLog.append("Auto Trail trading started\n");
 				ChartPlotter.tradePanel.removeAll();
 				ChartPlotter.tradePanel.add(trailingTradePanelInstance);
 				ChartPlotter.tradePanel.revalidate();
 				ChartPlotter.tradePanel.repaint();
 				trailingTradePanelInstance.add(ChartPlotter.heading);
 				ChartPlotter.heading.setText("<html><h1>Automatic : Trailing Trade<i> (Running)</i></h1></html>");
-				
-				
-				//code for auto trail trade 
-				
-				
-				
+								
 				f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
 			}
 		}	
@@ -60,6 +57,7 @@ public class AutoTrailTrade implements ActionListener
 			int a=JOptionPane.showConfirmDialog(f,"<html><h2>Are you sure you want to stop?</h2></html>","Stop?", JOptionPane.YES_NO_OPTION);
 			if(a==JOptionPane.YES_OPTION)
 			{
+				Bot.strategy=0;
 				System.out.println("Auto Trail trading stopped");
 				ChartPlotter.exchg.enable();
 				ChartPlotter.pair_name.enable();
