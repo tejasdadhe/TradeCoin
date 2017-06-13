@@ -1,9 +1,6 @@
 import java.awt.EventQueue;
 import java.util.concurrent.TimeUnit;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import org.jfree.ui.RefineryUtilities;
 
 public class Bot 

@@ -2,7 +2,6 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -10,11 +9,13 @@ import javax.swing.JPanel;
 public class AutoTrailTrade implements ActionListener 
 {
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
 		if (e.getActionCommand().equals(" Start ")) 
-		{
+		{	
+			
 			JFrame f=new JFrame(); 
 			JPanel trailingTradePanelInstance= new JPanel();
 			
@@ -29,6 +30,13 @@ public class AutoTrailTrade implements ActionListener
 			int a=JOptionPane.showConfirmDialog(f,"<html><h2>Do you want to start Auto Trading?</h2></html>","Start?", JOptionPane.YES_NO_OPTION);
 			if(a==JOptionPane.YES_OPTION)
 			{  
+				
+				ChartPlotter.exchg.disable();
+				ChartPlotter.pair_name.disable();
+				ChartPlotter.st.disable();
+				ChartPlotter.instancePanel.revalidate();
+				ChartPlotter.instancePanel.repaint();
+				
 				System.out.println("Auto Trail trading started");
 				ChartPlotter.tradePanel.removeAll();
 				ChartPlotter.tradePanel.add(trailingTradePanelInstance);
@@ -53,6 +61,13 @@ public class AutoTrailTrade implements ActionListener
 			if(a==JOptionPane.YES_OPTION)
 			{
 				System.out.println("Auto Trail trading stopped");
+				ChartPlotter.exchg.enable();
+				ChartPlotter.pair_name.enable();
+				ChartPlotter.st.enable();
+				ChartPlotter.instancePanel.revalidate();
+				ChartPlotter.instancePanel.repaint();
+				
+				
 				ChartPlotter.tradePanel.removeAll();
 				ChartPlotter.tradePanel.add(ChartPlotter.trailingTradePanel);
 				ChartPlotter.tradePanel.revalidate();
