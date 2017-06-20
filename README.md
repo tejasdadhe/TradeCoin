@@ -1,5 +1,5 @@
 # TradeCoin
-An automated bot which trades crypto-currencies to make profit out of price fluctuations
+TradeCoin is a GUI desktop tool to trade crypto-currencies over various exchanges with manual mode, as well as built in automated trading strategies to generate Profit from price fluctuations. 
 
 
 ### Currently suppoted exchanges
