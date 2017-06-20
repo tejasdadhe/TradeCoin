@@ -13,7 +13,6 @@ TradeCoin is a GUI desktop tool to trade crypto-currencies over various exchange
 
 
 ### To Do
-- Add GUI replacing current CUI.
 - Add more pairs.
 - Add more exchanges(first Poloneix then Gatehub).
 
